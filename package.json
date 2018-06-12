@@ -1,0 +1,26 @@
+{
+  "name": "node-mysql-db",
+  "version": "0.1.0",
+  "description": "Simple wrapper around node-mysql for querying with promises and handing streaming data.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Xeoncross/node-mysql-db.git"
+  },
+  "keywords": [
+    "mysql",
+    "db",
+    "database",
+    "sql",
+    "promise"
+  ],
+  "author": "David Pennington <david@xeoncross.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Xeoncross/node-mysql-db/issues"
+  },
+  "homepage": "https://github.com/Xeoncross/node-mysql-db#readme"
+}
