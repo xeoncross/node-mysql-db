@@ -2,6 +2,7 @@ const mysql = require("mysql");
 const path = require("path");
 // const stream = require('stream');
 const fs = require("fs");
+const Model = require("./model");
 
 // Simple query wrapper
 function query(pool, sql, params) {
@@ -165,5 +166,6 @@ module.exports = {
   streamingQuery,
   streamingQueryToCSVDownload,
   pairs,
-  loadSchema
+  loadSchema,
+  Model
 };

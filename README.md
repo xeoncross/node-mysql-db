@@ -1,18 +1,17 @@
 ## node-mysql-db
 
 This library is a basic query builder and assumes you want to write SQL for
-anything outside basic CRUD operations. It's a light-weight wrapper around [node-mysql](https://github.com/mysqljs/mysql).
+anything outside basic CRUD operations. It's a light-weight wrapper around [node-mysql](https://github.com/mysqljs/mysql) to provide a promise-based API
+and support for streaming large result sets for processing.
 
 ## Why?
 
-I write code in a lot of languages and interface with a number of datastores. There are many ORM's and Query Builders for each language (Alchemy, Doctrine, Active Record, Knex, etc..)
+I write code in a lot of languages and interface with a number of datastores. There are many ORM's and Query Builders for each language and most have substantial overhead while only providing a subset of features.
 
-SQL is already an abstraction and I am happy with it.
-
-I wanted a simple wrapper for handling streaming / unbuffered queries / big data in node. Extra helpers for basic CRUD operations is also handy.
+I wanted a simple wrapper for handling streaming / unbuffered queries / big data in node. Extra helpers for basic CRUD operations are included in the form of a base Model class that can be extended.
 
 
-## Usage
+## Query Usage
 
 All queries are preformed using prepared statements and returned as promises.
 
@@ -102,4 +101,45 @@ app.get('/api/endpoint', (req, res, next) => {
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'))
 
+```
+
+
+# Models
+
+Provided is a simple model object that can be used to quickly get up and running
+with a certain database entity.
+
+```js
+const mysql = require('mysql')
+const db, { Model } = require('node-mysql-db')
+
+const pool = mysql.createPool({...})
+
+class User extends Model {}
+
+module.exports = new User(pool);
+```
+
+Which can then be used as a basic query builder / ORM.
+
+```js
+const User = require('./models/user');
+
+// Find all users belonging to these companies
+User.findAll({company_id: [34, 65]}).then(users => {
+  console.log('users', users);
+}).catch(err => {
+  console.log(err.message);
+});
+
+// INSERT a record
+const data = {Name: 'John', email: 'john@example.com'};
+User.save(data).then(id => {
+  data.id = id;
+
+  // Calling with an `id` will result in an UPDATE this time
+  return User.save(data).then(newId => {
+    console.log(id === newId); // Same record
+  });
+}).catch(err => console.log(err));
 ```
